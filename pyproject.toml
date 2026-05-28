@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snu-library-scholarly-access"
+version = "0.1.0"
+description = "MCP skill: SNU library proxy for scholarly PDF access"
+requires-python = ">=3.10"
+dependencies = ["playwright"]
+
+[project.scripts]
+scholarly-access-agent = "scholarly_access_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+scholarly_access_agent = ["data/*.json"]

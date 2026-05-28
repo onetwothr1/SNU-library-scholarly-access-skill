@@ -1,0 +1,5 @@
+"""MCP tool process package."""
+
+from scholarly_access_agent.mcp.server import run_mcp_server
+
+__all__ = ["run_mcp_server"]
