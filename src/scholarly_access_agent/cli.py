@@ -20,6 +20,16 @@ from scholarly_access_agent.runtime.pdf import (
     download_pdf,
 )
 
+def str2bool(v: str | bool) -> bool:
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "y", "1"):
+        return True
+    if v.lower() in ("no", "false", "f", "n", "0"):
+        return False
+    raise argparse.ArgumentTypeError("Boolean value expected.")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="scholarly-access-agent",
@@ -49,7 +59,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     open_url.add_argument(
         "--headless",
-        action="store_true",
+        type=str2bool,
+        nargs="?",
+        const=True,
+        default=False,
         help="Run the browser headlessly. User-assisted login usually needs a window.",
     )
     open_url.add_argument(
@@ -97,15 +110,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     download_pdf_command.add_argument(
         "--headless",
-        action="store_true",
+        type=str2bool,
+        nargs="?",
+        const=True,
         default=True,
-        help="Run browser in headless mode (default).",
-    )
-    download_pdf_command.add_argument(
-        "--no-headless",
-        action="store_false",
-        dest="headless",
-        help="Run browser visibly (not headless).",
+        help="Run browser headlessly (default: true).",
     )
 
     discover_pdfs_command = subcommands.add_parser(
@@ -131,15 +140,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     discover_pdfs_command.add_argument(
         "--headless",
-        action="store_true",
+        type=str2bool,
+        nargs="?",
+        const=True,
         default=True,
-        help="Run browser in headless mode (default).",
-    )
-    discover_pdfs_command.add_argument(
-        "--no-headless",
-        action="store_false",
-        dest="headless",
-        help="Run browser visibly (not headless).",
+        help="Run browser headlessly (default: true).",
     )
 
     subcommands.add_parser(
