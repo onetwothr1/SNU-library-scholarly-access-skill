@@ -3,9 +3,9 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "snu-library-scholarly-access"
+name = "SNU-library-scholarly-access"
 version = "0.1.0"
-description = "MCP skill: SNU library proxy for scholarly PDF access"
+description = "SNU Library scholarly access tool"
 requires-python = ">=3.10"
 dependencies = ["playwright"]
 
