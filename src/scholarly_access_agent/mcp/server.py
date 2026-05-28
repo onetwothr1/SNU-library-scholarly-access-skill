@@ -108,37 +108,8 @@ def _handle_add_domain(arguments: dict[str, Any]) -> dict[str, Any]:
     if not domain:
         raise ValueError("Missing required argument: 'domain'")
 
-    from scholarly_access_agent.providers.snu.domains import (
-        DOMAIN_LIST_KEYS,
-        _BUILTIN_DOMAINS_FILE,
-        _domain_pattern_from_string,
-    )
-
-    normalized = _domain_pattern_from_string(domain)
-    if not normalized:
-        raise ValueError(f"Could not normalize domain: {domain!r}")
-
-    path = _BUILTIN_DOMAINS_FILE
-    data = json.loads(path.read_text(encoding="utf-8"))
-
-    if isinstance(data, list):
-        if normalized in data:
-            return {"ok": True, "domain": normalized, "status": "already_exists"}
-        data.append(normalized)
-    elif isinstance(data, dict):
-        for key in DOMAIN_LIST_KEYS:
-            if key in data and isinstance(data[key], list):
-                if normalized in data[key]:
-                    return {"ok": True, "domain": normalized, "status": "already_exists"}
-                data[key].append(normalized)
-                break
-        else:
-            raise ValueError("Unsupported domains file format.")
-    else:
-        raise ValueError("Unsupported domains file format.")
-
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-    return {"ok": True, "domain": normalized, "status": "added"}
+    from scholarly_access_agent.providers.snu.domains import add_domain
+    return add_domain(domain)
 
 
 def _send_response(response: dict[str, Any]) -> None:

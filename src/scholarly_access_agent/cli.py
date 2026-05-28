@@ -150,6 +150,11 @@ def build_parser() -> argparse.ArgumentParser:
         "setup",
         help="Set up and personalize path settings in skill.md for this system.",
     )
+    add_domain = subcommands.add_parser(
+        "add-domain",
+        help="Add a domain to the built-in SNU proxy domain list.",
+    )
+    add_domain.add_argument("domain", help="Domain to add (e.g. publisher.com).")
 
     return parser
 
@@ -297,6 +302,12 @@ def run(args: argparse.Namespace) -> int:
             "message": "Successfully personalized skill.md",
             "cli_path": str(exec_path.resolve()).replace("\\", "/")
         })
+        return 0
+
+    if args.command == "add-domain":
+        from scholarly_access_agent.providers.snu.domains import add_domain
+        result = add_domain(args.domain)
+        write_json(result)
         return 0
 
     raise ValueError(f"Unsupported command: {args.command}")

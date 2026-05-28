@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Any
 
 from scholarly_access_agent.core.urls import normalize_host
 
@@ -72,3 +72,31 @@ def load_domains(path: Path) -> tuple[str, ...]:
 
 
 DEFAULT_DOMAINS: tuple[str, ...] = load_domains(_BUILTIN_DOMAINS_FILE)
+
+
+def add_domain(domain: str) -> dict[str, Any]:
+    normalized = _domain_pattern_from_string(domain)
+    if not normalized:
+        raise ValueError(f"Could not normalize domain: {domain!r}")
+
+    path = _BUILTIN_DOMAINS_FILE
+    data = json.loads(path.read_text(encoding="utf-8"))
+
+    if isinstance(data, list):
+        if normalized in data:
+            return {"ok": True, "domain": normalized, "status": "already_exists"}
+        data.append(normalized)
+    elif isinstance(data, dict):
+        for key in DOMAIN_LIST_KEYS:
+            if key in data and isinstance(data[key], list):
+                if normalized in data[key]:
+                    return {"ok": True, "domain": normalized, "status": "already_exists"}
+                data[key].append(normalized)
+                break
+        else:
+            raise ValueError("Unsupported domains file format.")
+    else:
+        raise ValueError("Unsupported domains file format.")
+
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    return {"ok": True, "domain": normalized, "status": "added"}
