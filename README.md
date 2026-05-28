@@ -27,6 +27,7 @@ Run the following commands in your terminal:
 ```bash
 # Clone the repository
 git clone https://github.com/onetwothr1/SNU-library-scholarly-access-skill.git ~/.claude/skills/SNU-library-scholarly-access
+mkdir ~/.claude/skills/SNU-library-scholarly-access
 cd ~/.claude/skills/SNU-library-scholarly-access
 
 # Create and activate virtual environment
