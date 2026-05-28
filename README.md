@@ -9,7 +9,7 @@ CLI tool that uses a Seoul National University library account to access paywall
 
 ## Supported Publishers
 
-Nature, Science, and other publishers affiliated with the SNU library. See `src/scholarly_access_agent/data/journal_domains.json` for the full domain list.
+Nature, Science, and other publishers affiliated with the SNU library. See [journal_domain.json](src/scholarly_access_agent/data/journal_domains.json) for the full domain list.
 
 ---
 
