@@ -2,7 +2,7 @@
 
 CLI tool that uses a Seoul National University library account to access paywalled scholarly journals and download PDFs.
 
-- Automatic SNU portal login (Playwright-based)
+- Headless automatic SNU library login (using Playwright)
 - Proxy URL generation for affiliated publisher sites
 - PDF link discovery on article pages (distinguishes full-text from supplementary files)
 - PDF download
@@ -25,19 +25,16 @@ Nature, Science, and other publishers affiliated with the SNU library. See [jour
 Run the following commands in your terminal:
 
 ```bash
-# Clone the repository
-git clone https://github.com/onetwothr1/SNU-library-scholarly-access-skill.git ~/.claude/skills/SNU-library-scholarly-access
-mkdir ~/.claude/skills/SNU-library-scholarly-access
+git clone https://github.com/onetwothr1/SNU-library-scholarly-access-skill.git $HOME/.claude/skills/SNU-library-scholarly-access
 cd ~/.claude/skills/SNU-library-scholarly-access
 
-# Create and activate virtual environment
 python -m venv .venv
 .venv\Scripts\Activate.ps1        # Windows (PowerShell)
 # source .venv/bin/activate       # macOS/Linux
 
-# Install package, browser engines & personalize paths
 pip install -e .
 playwright install chromium
+
 scholarly-access-agent setup
 ```
 
